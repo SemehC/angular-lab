@@ -1,0 +1,42 @@
+{
+  "members": [
+    {
+      "id": "123456",
+      "cin": "123456",
+      "name": "Houcem Chlougou",
+      "type": "TEACHER",
+      "cv": "lien",
+      "createdDate": "2020-10"
+    },
+    {
+      "id": "4895",
+      "cin": "4895",
+      "name": "Imene Lahyeni",
+      "type": "TEACHER",
+      "cv": "lien",
+      "createdDate": "2020-10"
+    },
+    {
+      "id": "3524",
+      "cin": "3524",
+      "name": "Med Amin",
+      "type": "STUDENT",
+      "cv": "lien",
+      "createdDate": "2020-10"
+    }
+  ],
+  "etudaints": [
+    {
+    "dateInscription": "2020-10",
+    "diplome": "informatique"
+    },
+    {
+      "dateInscription": "2020-10",
+      "diplome": "mecanique"
+    }
+  ],
+  "outils": [],
+  "publications": [],
+  "evenements": [],
+  "enseignantChercheurs": []
+}

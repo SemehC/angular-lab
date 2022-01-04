@@ -1,0 +1,100 @@
+
+<div *ngIf="loadedForm">
+<h1>Editing {{ memberReceivedByService.nom }} details</h1>
+
+
+
+
+
+<mat-stepper [linear]="false" #stepper>
+
+  <mat-step label="Assign a role">
+
+    <div >
+    <ng-lottie  width="300px" height="300px" [options]="roleAnimation" style="display: block; float: left;"></ng-lottie>
+    <br><br>
+    <br><br>
+    <form (ngSubmit)="updateType()" style="display: block; float: left;">
+      <mat-form-field appearance="fill">
+        <mat-label>Member type</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option value="na">None</mat-option>
+          <mat-option value="etd">Student</mat-option>
+          <mat-option value="ens">Teacher</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary">Update role</button>
+    </form>
+  </div>
+
+  </mat-step>
+
+
+  <mat-step  label="General details">
+    <ng-lottie width="300px" height="300px" [options]="profileAnimation" style="display: block; float: left;"></ng-lottie>
+    <br><br>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="display: block; float: left;">
+      <mat-form-field appearance="fill" class="formField" matTooltip="National ID Card">
+        <input matInput formControlName="cin" placeholder="cin" />
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill" class="formField" matTooltip="Name field">
+        <input matInput formControlName="nom" placeholder="name" />
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill" class="formField" matTooltip="Lastname field">
+        <input matInput formControlName="prenom" placeholder="lastName" />
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill" class="formField" matTooltip="Birthday">
+        <input type="date" matInput formControlName="dateNaissance" />
+      </mat-form-field>
+      <br />
+      <div *ngIf="memberReceivedByService.type=='etd'">
+        <mat-form-field appearance="fill" class="formField" matTooltip="Date inscription">
+          <input type="date" matInput formControlName="dateInscription" />
+        </mat-form-field>
+        <br />
+        <mat-form-field appearance="fill" class="formField" matTooltip="Diplome">
+          <input matInput formControlName="diplome" />
+        </mat-form-field>
+        <br />
+      </div>
+      <br>
+      <div *ngIf="memberReceivedByService.type=='ens'">
+        <mat-form-field appearance="fill" class="formField" matTooltip="grade">
+          <input matInput formControlName="grade" />
+        </mat-form-field>
+        <br />
+        <mat-form-field appearance="fill" class="formField" matTooltip="etablissement">
+          <input matInput formControlName="etablissement" />
+        </mat-form-field>
+        <br />
+      </div>
+      <button type="submit" mat-raised-button color="primary">Update informations</button>
+    </form>
+
+  </mat-step>
+  
+  <mat-step  label="Resume">
+  <ng-lottie  width="300px" height="300px" [options]="resumeAnimation" style="display: block; float: left;"></ng-lottie>
+    <br><br>
+    <br><br>
+    <div style="display: block; float: left;">
+    <form (ngSubmit)="updateResume()" >
+      <input type="file" accept=".pdf" class="form-control" (change)="fileUploadChange($event)" />
+      <button type="submit" mat-raised-button color="primary">Update Resume</button>
+    </form>
+
+    <button type="button" mat-raised-button color="primary" (click)="fetchResume()"  >View resume</button>
+
+  </div>
+
+  </mat-step>
+</mat-stepper>
+
+
+
+</div>
+
+
