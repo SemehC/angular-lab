@@ -7,6 +7,8 @@ import { ToolsComponent } from './tools/tools.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { MemberAddComponent } from './member-add/member-add.component';
+import { ProfileComponent } from './profile/profile.component';
 const routes: Routes = [
   {
     path: 'members',
@@ -34,14 +36,19 @@ const routes: Routes = [
     component: DashboardComponent,
   },
   {
-    path: 'form',
+    path: 'addmember',
     pathMatch: 'full',
-    component: MemberFormComponent,
+    component: MemberAddComponent,
   },
   {
     path: ':id/edit',
     pathMatch: 'full',
     component: MemberFormComponent,
+  },
+  {
+    path: 'profile/:id',
+    pathMatch: 'full',
+    component: ProfileComponent,
   },
   {
     path: '',

@@ -10,7 +10,14 @@ import { ConfirmDialog } from '../dialog-component/confirm-dialog';
   styleUrls: ['./member-list.component.css'],
 })
 export class MemberListComponent implements OnInit {
-  datasource: Member[] = [];
+  
+  currentDisplay: Member[] = [];
+
+  allMembers: Member[] = [];
+  supervisedStudents: Member[] = [];
+  unsupervisedStudents: Member[] = [];
+
+  
 
   isAdmin:boolean =false;
   isStudent:boolean =false;
@@ -24,6 +31,7 @@ export class MemberListComponent implements OnInit {
   }
   async fetchDataSource(): Promise<void> {
     await this.getAllMembers();
+    this.currentDisplay = this.allMembers;
   }
 
   displayedColumns = [
@@ -41,9 +49,10 @@ export class MemberListComponent implements OnInit {
 
   
   async getAllMembers() {
-    this.datasource = await this.memberService.getAllMemebers();
+    this.allMembers = await this.memberService.getAllMemebers();
+    await this.getSupervisedStudents();
     if(this.memberService.getCurrentUser() != undefined)
-      this.datasource = this.datasource.filter((member) => member.id.toString() != this.memberService.getCurrentUser()!.id.toString()); 
+      this.allMembers = this.allMembers.filter((member) => (member.id.toString() != this.memberService.getCurrentUser()!.id.toString() && member.type!="adm")); 
   }
 
   onRemove(id: string) {
@@ -52,11 +61,64 @@ export class MemberListComponent implements OnInit {
     });
   }
 
+  changeDisplayedData(event:any){
+    if(event.value == "0"){
+      this.currentDisplay = this.allMembers;
+    }
+    if(event.value == "1"){
+      this.currentDisplay = this.supervisedStudents;
+    }
+    if(event.value == "2"){
+      this.currentDisplay = this.unsupervisedStudents;
+    }
+  }
+
+
+  isSupervised(member:Member): Boolean{   
+    for(var i =0;i< this.supervisedStudents.length;i++){
+      if(this.supervisedStudents[i].encadrant.id == this.memberService.getCurrentUser()!.id)
+        return true;
+    }
+    return false;
+    //return this.supervisedStudents.includes(member);
+  }
+
+  superviseMember(member:Member){
+    this.memberService.superviseStudent(member.id,this.memberService.getCurrentUser()!.id).then(()=>{
+      this.getAllMembers();
+    });
+  }
+
+  unsuperviseMember(member:Member){
+    this.memberService.unsuperviseStudent(member.id).then(()=>{
+      this.getAllMembers();
+    });
+  }
+
+  async getSupervisedStudents(){
+    if(!this.memberService.isTeacher())
+      return;
+    
+    this.supervisedStudents = await this.memberService.getSupervisedBy(this.memberService.getCurrentUser()!.id);
+    this.supervisedStudents = this.supervisedStudents.filter((member) => (member.id.toString() != this.memberService.getCurrentUser()!.id.toString() && member.type!="adm")); 
+
+
+    this.unsupervisedStudents = this.allMembers.filter((member)=>(member.type=="etd" && member.encadrant==null));
+
+  } 
+
+  getResume(member:Member){
+    this.memberService.getResume(member.cv).then((res)=>{
+      var blob = new Blob([res], { type: 'application/pdf' });
+      window.open(URL.createObjectURL(blob));
+    });
+  } 
+
   async searchMembers(input: string) {
     console.log("searching for : "+input);
     await this.getAllMembers();
-    const foundMemebersById = this.searchMembersById(input, this.datasource);
-    const foundMembersByName = this.searchMemebersByName(input, this.datasource);
+    const foundMemebersById = this.searchMembersById(input, this.allMembers);
+    const foundMembersByName = this.searchMemebersByName(input, this.allMembers);
     console.log(foundMembersByName);
     const allFoundMembers = foundMembersByName.concat(foundMemebersById);
     if (
@@ -65,7 +127,7 @@ export class MemberListComponent implements OnInit {
     ){
 
     }else{
-      this.datasource = allFoundMembers;
+      this.allMembers = allFoundMembers;
     }
     
   }

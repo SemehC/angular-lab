@@ -1,3 +1,5 @@
+import { Evenement } from "./evenement.model";
+
 export interface Member {
   id: string;
   cin: string;
@@ -9,10 +11,12 @@ export interface Member {
   date_inscription: Date;
   diplome: string;
   sujet: string;
-  date_naissance: Date;
+  dateNaissance: Date;
   cv: string;
   createdDate: string;
   email: string;
   photoURL: string;
   emailVerified: boolean;
+  encadrant: Member;
+  evenements: Evenement[];
 }

@@ -1,0 +1,128 @@
+
+
+<div style="margin-left: 200px; margin-right: 200px; margin-top: 50px;" *ngIf="loadedProfile">
+    <h1>Profile de {{profileMember!.nom}}</h1>
+    <div layout="column" flex="100" flex-gt-sm="50" flex-gt-md="65">
+
+        <mat-tab-group>
+            <mat-tab label="Generale">
+
+                <mat-list>
+                    <mat-list-item>Nom : {{profileMember!.nom}} {{profileMember!.prenom}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>Date de naissance : {{profileMember!.dateNaissance}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>Carte Identité Nationale : {{profileMember!.cin}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>Type : {{profileMember!.type == "etd" ? "Etudiant" : "Enseignant"}}</mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item *ngIf="profileMember!.cv">
+                        <button (click)="getResume()" mat-button color="primary">
+                            <mat-icon
+                              _ngcontent-gfw-c62=""
+                              role="img"
+                              class="mat-icon notranslate material-icons mat-icon-no-color"
+                              aria-hidden="true"
+                              data-mat-icon-type="font"
+                              >picture_as_pdf</mat-icon
+                            >
+                            Resume
+                          </button>
+                    </mat-list-item>
+                  </mat-list>
+
+            </mat-tab>
+
+            <mat-tab label="Evenements">
+
+                <div *ngFor="let evt of profileMember!.evenements">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            {{evt.titre}}
+                          </mat-panel-title>
+                          <mat-panel-description>
+                            {{evt.date | date}}
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <p>{{evt.lieu}}.</p>
+                      </mat-expansion-panel>
+                </div>  
+
+            </mat-tab>
+
+            <mat-tab label="Outils">
+
+                <div *ngFor="let evt of profileMember!.evenements">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            {{evt.titre}}
+                          </mat-panel-title>
+                          <mat-panel-description>
+                            {{evt.date | date}}
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <p>{{evt.lieu}}.</p>
+                      </mat-expansion-panel>
+                </div>  
+
+            </mat-tab>
+
+
+            <mat-tab label="Modification" *ngIf="isOwnProfile">
+
+                <form (ngSubmit)="updateResume()" >
+                    <input type="file" accept=".pdf" class="form-control" (change)="fileUploadChange($event)" />
+                    <button type="submit" mat-raised-button color="primary">Update Resume</button>
+                  </form>
+                  <br>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="display: block; float: left;">
+                    <mat-form-field appearance="fill" class="formField" matTooltip="National ID Card">
+                      <input matInput formControlName="cin" placeholder="cin" />
+                    </mat-form-field>
+                    <br />
+                    <mat-form-field appearance="fill" class="formField" matTooltip="Name field">
+                      <input matInput formControlName="nom" placeholder="name" />
+                    </mat-form-field>
+                    <br />
+                    <mat-form-field appearance="fill" class="formField" matTooltip="Lastname field">
+                      <input matInput formControlName="prenom" placeholder="lastName" />
+                    </mat-form-field>
+                    <br />
+                    <mat-form-field appearance="fill" class="formField" matTooltip="Birthday">
+                      <input type="date" matInput formControlName="dateNaissance" />
+                    </mat-form-field>
+                    <br />
+                    <div *ngIf="profileMember!.type=='etd'">
+                      <mat-form-field appearance="fill" class="formField" matTooltip="Date inscription">
+                        <input type="date" matInput formControlName="dateInscription" />
+                      </mat-form-field>
+                      <br />
+                      <mat-form-field appearance="fill" class="formField" matTooltip="Diplome">
+                        <input matInput formControlName="diplome" />
+                      </mat-form-field>
+                      <br />
+                    </div>
+                    <br>
+                    <div *ngIf="profileMember!.type=='ens'">
+                      <mat-form-field appearance="fill" class="formField" matTooltip="grade">
+                        <input matInput formControlName="grade" />
+                      </mat-form-field>
+                      <br />
+                      <mat-form-field appearance="fill" class="formField" matTooltip="etablissement">
+                        <input matInput formControlName="etablissement" />
+                      </mat-form-field>
+                      <br />
+                    </div>
+                    <button type="submit" mat-raised-button color="primary">Mettre a jour</button>
+                  </form>
+
+            </mat-tab>
+
+        </mat-tab-group>
+        
+
+      </div>
+    </div>

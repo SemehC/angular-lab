@@ -56,6 +56,8 @@ import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
 
 import { MatFileUploadModule } from 'angular-material-fileupload';
+import { MemberAddComponent } from './member-add/member-add.component';
+import { ProfileComponent } from './profile/profile.component';
 export function playerFactory() {
   return player;
 }
@@ -72,6 +74,8 @@ export function playerFactory() {
     ArticlesComponent,
     EventsComponent,
     LoginComponent,
+    MemberAddComponent,
+    ProfileComponent,
   ],
   imports: [
     MatFileUploadModule,

@@ -16,10 +16,9 @@ import { AnimationOptions } from 'ngx-lottie';
 })
 export class MemberFormComponent implements OnInit {
 
-  form: any;
   currentId: string = '';
   memberReceivedByService: any;
-
+  form: any;
   loadedForm:boolean = false;
   updating:boolean = false;
   selected = 'na';
@@ -131,7 +130,7 @@ export class MemberFormComponent implements OnInit {
         cin: new FormControl(member?.cin, [Validators.required]),
         nom: new FormControl(member?.nom, [Validators.required]),
         prenom: new FormControl(member?.prenom, [Validators.required]),
-        dateNaissance: new FormControl(member?.date_naissance, [Validators.required]),
+        dateNaissance: new FormControl(member?.dateNaissance, [Validators.required]),
         dateInscription: new FormControl(member?.date_inscription, [Validators.required]),
         diplome: new FormControl(member?.diplome, [Validators.required]),
       });
@@ -140,7 +139,7 @@ export class MemberFormComponent implements OnInit {
         cin: new FormControl(member?.cin, [Validators.required]),
         nom: new FormControl(member?.nom, [Validators.required]),
         prenom: new FormControl(member?.prenom, [Validators.required]),
-        dateNaissance: new FormControl(member?.date_naissance, [Validators.required]),
+        dateNaissance: new FormControl(member?.dateNaissance, [Validators.required]),
         grade: new FormControl(member?.grade, [Validators.required]),
         etablissement: new FormControl(member?.etablissement, [Validators.required]),
       });

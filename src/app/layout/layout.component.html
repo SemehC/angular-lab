@@ -79,7 +79,7 @@
           <!-- <button class="" mat-menu-item (click)="logout()"> -->
             <div *ngIf="isLoggedIn && initializedPage">
 
-              <button class="" mat-menu-item >
+              <button class="" mat-menu-item routerLink="/profile/{{currentUser!.id}}" >
                 <mat-icon>account_box</mat-icon>
                 <span *ngIf="currentUser !== undefined && currentUser !== null">{{currentUser.nom}}</span>
               </button>

@@ -1,0 +1,32 @@
+<div *ngIf="loadedForm" class="content" >
+
+    <mat-form-field appearance="fill">
+        <mat-label>Member type</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option value="na">None</mat-option>
+          <mat-option value="etd">Student</mat-option>
+          <mat-option value="ens">Teacher</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+    <form [formGroup]="form" (ngSubmit)="addMember()"  style="display: block; float: left;">
+        <mat-form-field appearance="fill" class="formField" matTooltip="National ID Card">
+          <input matInput formControlName="cin" placeholder="cin" />
+        </mat-form-field>
+        <br />
+        <mat-form-field appearance="fill" class="formField" matTooltip="Name field">
+          <input matInput formControlName="nom" placeholder="name" />
+        </mat-form-field>
+        <br />
+        <mat-form-field appearance="fill" class="formField" matTooltip="Lastname field">
+          <input matInput formControlName="prenom" placeholder="lastName" />
+        </mat-form-field>
+        <br />
+        <mat-form-field appearance="fill" class="formField" matTooltip="Birthday">
+          <input type="date" matInput formControlName="dateNaissance" />
+        </mat-form-field>
+        <br />
+        <button type="submit" mat-raised-button color="primary">Add new member</button>
+      </form>
+</div>

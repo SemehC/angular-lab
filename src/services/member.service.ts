@@ -89,25 +89,44 @@ export class MemberService {
     
   }
 
+
+
   saveMember(member: Member): Promise<Member> {
     if(member.type=="etd"){
       return this.httpClient.put<Member>(this.baseApi+"membres/etudiant/"+member.id, member).toPromise();
-    }else{
+    }else if (member.type=="ens"){
       return this.httpClient.put<Member>(this.baseApi+"membres/enseignant/"+member.id, member).toPromise();
+    }else if (member.type == "adm"){
+      return this.httpClient.put<Member>(this.baseApi+"membres/adm/"+member.id, member).toPromise();
+    }else{
+      return this.httpClient.put<Member>(this.baseApi+"membres/na/"+member.id, member).toPromise();
     }
-    /*const memberToSave = { ...member };
-    memberToSave.id = member.id ?? Math.ceil(Math.random() * 10000);
-    memberToSave.createdDate = new Date().toISOString();
-    this.tab = [
-      memberToSave,
-      ...this.tab.filter((item) => item.id !== memberToSave.id),
-    ];
-    return new Promise((resolve) => resolve(memberToSave));*/
+  }
+
+  getSupervisedBy(id:string): Promise<Member[]>{
+    return this.httpClient.get<Member[]>(this.baseApi+"membres/encadrerpar/"+id).toPromise();
+  }
+
+  superviseStudent(idEtd:String, idEns:String): Promise<Member>{
+    return this.httpClient.put<Member>(this.baseApi+"affecter?idetd="+idEtd+"&idens="+idEns,[]).toPromise();
+  }
+
+  unsuperviseStudent(idEtd:String): Promise<Member>{
+    return this.httpClient.put<Member>(this.baseApi+"desaffecter?idetd="+idEtd,[]).toPromise();
+  }
+
+  addNewMember(member: Member): Promise<Member> {
+    if(member.type=="etd"){
+      return this.httpClient.post<Member>(this.baseApi+"membres/etudiant/", member).toPromise();
+    }else{
+      return this.httpClient.post<Member>(this.baseApi+"membres/enseignant/", member).toPromise();
+    }
   }
 
   getMemeberById(id: string): Promise<Member> {
-    return this.httpClient.get<Member>(this.baseApi+this.allMembersLink+"/"+id).toPromise();
+    return this.httpClient.get<Member>(this.baseApi+"fullmember/"+id).toPromise();
   }
+
   deleteMemberById(id: string): Promise<any> {
     console.log("Deleting : "+id);
     return this.httpClient.delete<void>(this.baseApi+"membres/"+id).toPromise();
